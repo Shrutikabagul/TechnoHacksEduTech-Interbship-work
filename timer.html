@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown Timer</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+
+        #timer {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 10px;
+            font-size: 1em;
+            margin: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <div id="timer">00:00</div>
+        <button onclick="startTimer()">Start</button>
+        <button onclick="stopTimer()">Stop</button>
+        <button onclick="resetTimer()">Reset</button>
+        <button onclick="restartTimer()">Restart</button>
+    </div>
+
+    <script>
+        let timer;
+        let seconds = 300; // Initial time in seconds
+
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
+        }
+
+        function updateTimerDisplay() {
+            document.getElementById('timer').innerText = formatTime(seconds);
+        }
+
+        function startTimer() {
+            timer = setInterval(function () {
+                if (seconds > 0) {
+                    seconds--;
+                    updateTimerDisplay();
+                } else {
+                    clearInterval(timer);
+                    alert("Timer expired!");
+                }
+            }, 1000);
+
+            // Disable the start button once the timer is started
+            document.querySelector('button:nth-child(1)').disabled = true;
+        }
+
+        function stopTimer() {
+            clearInterval(timer);
+
+            // Enable the start button when the timer is stopped
+            document.querySelector('button:nth-child(1)').disabled = false;
+        }
+
+        function resetTimer() {
+            stopTimer();
+            seconds = 300; // Reset to the initial time
+            updateTimerDisplay();
+        }
+
+        function restartTimer() {
+            resetTimer();
+            startTimer();
+        }
+
+        // Initial display
+        updateTimerDisplay();
+    </script>
+</body>
+</html>
